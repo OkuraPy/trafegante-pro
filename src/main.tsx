@@ -5,6 +5,7 @@ import './index.css'
 
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
+import DashboardLayout from './components/DashboardLayout'
 import ProtectedRoute from './components/ProtectedRoute'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -16,7 +17,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           path="/admin" 
           element={
             <ProtectedRoute>
-              <Dashboard />
+              <DashboardLayout>
+                <Dashboard />
+              </DashboardLayout>
             </ProtectedRoute>
           } 
         />

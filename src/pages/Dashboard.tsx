@@ -624,96 +624,92 @@ const Dashboard: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <DashboardLayout>
-      <div className="min-h-screen bg-gray-50/50">
-        <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+    <div className="min-h-screen bg-gray-50/50">
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      
+      <div className="lg:pl-64">
+        <div className="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
+            <p className="mt-1 text-gray-500">Acompanhe seus principais indicadores em tempo real</p>
+          </div>
+        </div>
+
+        <div className="mb-8 overflow-x-auto pb-4">
+          <div className="flex space-x-4 min-w-max">
+            <div className="w-64">
+              <StatCard
+                title="Total de Usuários"
+                subtitle="Ativos na plataforma"
+                value="6.838"
+                icon={Users}
+                trend="up"
+                trendValue="12.5"
+                trendColor="blue"
+              />
+            </div>
+            <div className="w-64">
+              <StatCard
+                title="Faturamento Total"
+                subtitle="Acumulado do ano"
+                value="R$ 684.765,82"
+                icon={DollarSign}
+                trend="up"
+                trendValue="8.2"
+                trendColor="green"
+              />
+            </div>
+            <div className="w-64">
+              <StatCard
+                title="Faturamento do Mês"
+                subtitle="Mês atual"
+                value="R$ 243.952,54"
+                icon={Layers}
+                trend="up"
+                trendValue="9.3"
+                trendColor="green"
+              />
+            </div>
+            <div className="w-64">
+              <StatCard
+                title="Faturamento Hoje"
+                subtitle="Atualizado em tempo real"
+                value="R$ 19.891,31"
+                icon={CreditCard}
+                trend="up"
+                trendValue="15.3"
+                trendColor="purple"
+              />
+            </div>
+            <div className="w-64">
+              <StatCard
+                title="MRR Previsto"
+                subtitle="Próximo mês"
+                value="R$ 195.472"
+                icon={TrendingUp}
+                trend="up"
+                trendValue="5.7"
+                trendColor="indigo"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+          <div className="col-span-2">
+            <RevenueChart />
+          </div>
+          <div>
+            <MetricsCard />
+          </div>
+        </div>
         
-        <div className="lg:pl-64">
-          <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div className="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-                <p className="mt-1 text-gray-500">Acompanhe seus principais indicadores em tempo real</p>
-              </div>
-            </div>
-
-            <div className="mb-8 overflow-x-auto pb-4">
-              <div className="flex space-x-4 min-w-max">
-                <div className="w-64">
-                  <StatCard
-                    title="Total de Usuários"
-                    subtitle="Ativos na plataforma"
-                    value="6.838"
-                    icon={Users}
-                    trend="up"
-                    trendValue="12.5"
-                    trendColor="blue"
-                  />
-                </div>
-                <div className="w-64">
-                  <StatCard
-                    title="Faturamento Total"
-                    subtitle="Acumulado do ano"
-                    value="R$ 684.765,82"
-                    icon={DollarSign}
-                    trend="up"
-                    trendValue="8.2"
-                    trendColor="green"
-                  />
-                </div>
-                <div className="w-64">
-                  <StatCard
-                    title="Faturamento do Mês"
-                    subtitle="Mês atual"
-                    value="R$ 243.952,54"
-                    icon={Layers}
-                    trend="up"
-                    trendValue="9.3"
-                    trendColor="green"
-                  />
-                </div>
-                <div className="w-64">
-                  <StatCard
-                    title="Faturamento Hoje"
-                    subtitle="Atualizado em tempo real"
-                    value="R$ 19.891,31"
-                    icon={CreditCard}
-                    trend="up"
-                    trendValue="15.3"
-                    trendColor="purple"
-                  />
-                </div>
-                <div className="w-64">
-                  <StatCard
-                    title="MRR Previsto"
-                    subtitle="Próximo mês"
-                    value="R$ 195.472"
-                    icon={TrendingUp}
-                    trend="up"
-                    trendValue="5.7"
-                    trendColor="indigo"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-              <div className="col-span-2">
-                <RevenueChart />
-              </div>
-              <div>
-                <MetricsCard />
-              </div>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <ConversionChart />
-              <SegmentationChart />
-            </div>
-          </main>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <ConversionChart />
+          <SegmentationChart />
         </div>
       </div>
-    </DashboardLayout>
+    </div>
   );
 };
 

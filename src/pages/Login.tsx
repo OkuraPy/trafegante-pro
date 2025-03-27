@@ -77,7 +77,7 @@ const Login: React.FC = () => {
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
                       className="block w-full pl-10 pr-3 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-50 text-gray-900"
-                      placeholder="admin@trafegante.pro"
+                      placeholder="Seu email"
                     />
                   </div>
                 </div>
@@ -125,14 +125,6 @@ const Login: React.FC = () => {
                 </div>
               </div>
             </form>
-
-            <div className="mt-6 text-center text-xs text-gray-500">
-              <p>Para fins de demonstração, use:</p>
-              <p className="mt-1 font-mono bg-gray-50 p-2 rounded border border-gray-200 inline-block">
-                Email: admin@trafegante.pro<br />
-                Senha: trafegante2024
-              </p>
-            </div>
           </div>
         </div>
       </div>
