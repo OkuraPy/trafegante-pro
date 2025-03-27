@@ -635,9 +635,9 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
 
-        <div className="mb-8 overflow-x-auto pb-4">
-          <div className="flex space-x-4 min-w-max">
-            <div className="w-64">
+        <div className="mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            <div className="h-full">
               <StatCard
                 title="Total de Usuários"
                 subtitle="Ativos na plataforma"
@@ -648,7 +648,7 @@ const Dashboard: React.FC = () => {
                 trendColor="blue"
               />
             </div>
-            <div className="w-64">
+            <div className="h-full">
               <StatCard
                 title="Faturamento Total"
                 subtitle="Acumulado do ano"
@@ -696,17 +696,21 @@ const Dashboard: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-          <div className="col-span-2">
+          <div className="lg:col-span-2 h-full">
             <RevenueChart />
           </div>
-          <div>
+          <div className="h-full">
             <MetricsCard />
           </div>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <ConversionChart />
-          <SegmentationChart />
+          <div className="h-full">
+            <ConversionChart />
+          </div>
+          <div className="h-full">
+            <SegmentationChart />
+          </div>
         </div>
       </div>
     </div>
