@@ -337,28 +337,30 @@ interface StatCardProps {
 
 function StatCard({ title, value, icon: Icon, trend, trendValue, trendColor = 'blue', subtitle }: StatCardProps) {
   return (
-    <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:border-blue-100 hover:shadow-md transition-all duration-300">
-      <div className="flex items-center justify-between mb-4">
-        <div>
-          <h3 className="text-gray-600 font-medium">{title}</h3>
-          {subtitle && <p className="text-sm text-gray-400">{subtitle}</p>}
-        </div>
-        <div className={`p-3 rounded-xl bg-${trendColor}-50`}>
-          <Icon className={`w-6 h-6 text-${trendColor}-500`} />
-        </div>
-      </div>
-      <div>
-        <p className="text-2xl font-bold text-gray-800 tracking-tight mb-2">{value}</p>
-        {trend && (
-          <div className={`inline-flex items-center ${trend === 'up' ? `text-${trendColor}-500` : 'text-red-500'} bg-${trend === 'up' ? `${trendColor}` : 'red'}-50 px-2.5 py-1 rounded-lg text-sm font-medium`}>
-            {trend === 'up' ? (
-              <ArrowUpRight className="w-4 h-4 mr-1" />
-            ) : (
-              <ArrowDownRight className="w-4 h-4 mr-1" />
-            )}
-            <span>{trendValue}% vs mês anterior</span>
+    <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300">
+      <div className="flex flex-col h-full">
+        <div className="flex items-start justify-between mb-3">
+          <div>
+            <h3 className="text-gray-600 font-medium">{title}</h3>
+            {subtitle && <p className="text-sm text-gray-400">{subtitle}</p>}
           </div>
-        )}
+          <div className={`p-3 rounded-xl bg-${trendColor}-50`}>
+            <Icon className={`w-6 h-6 text-${trendColor}-500`} />
+          </div>
+        </div>
+        <div className="mt-auto">
+          <p className="text-2xl font-bold text-gray-800 tracking-tight mb-2">{value}</p>
+          {trend && (
+            <div className={`inline-flex items-center ${trend === 'up' ? `text-${trendColor}-500` : 'text-red-500'}`}>
+              {trend === 'up' ? (
+                <ArrowUpRight className="w-4 h-4 mr-1" />
+              ) : (
+                <ArrowDownRight className="w-4 h-4 mr-1" />
+              )}
+              <span>{trendValue}% vs mês anterior</span>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -366,16 +368,14 @@ function StatCard({ title, value, icon: Icon, trend, trendValue, trendColor = 'b
 
 function RevenueChart() {
   return (
-    <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-      <div className="flex items-center justify-between mb-6">
+    <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+      <div className="flex items-center justify-between mb-4">
         <div>
           <h3 className="text-xl font-semibold text-gray-800">Faturamento Diário</h3>
           <p className="text-gray-500 text-sm mt-1">Últimos 30 dias (27/02 - 27/03)</p>
         </div>
-        <div className="flex items-center space-x-2">
-          <div className="text-sm text-gray-600 font-medium bg-blue-50 rounded-lg px-3 py-1.5">
-            Total: <span className="font-bold text-blue-600">R$ 243.952,54</span>
-          </div>
+        <div className="text-sm text-gray-600 font-medium">
+          Total: <span className="font-bold text-blue-600">R$ 243.952,54</span>
         </div>
       </div>
       
@@ -407,7 +407,7 @@ function RevenueChart() {
               yAxisId="left"
               tick={{ fill: '#6b7280' }} 
               axisLine={{ stroke: '#e5e7eb' }}
-              tickFormatter={(value) => `R$ ${value.toLocaleString()}`} 
+              tickFormatter={(value) => `R$ ${(value/1000).toFixed(0)}k`} 
             />
             <YAxis 
               yAxisId="right"
@@ -418,8 +418,8 @@ function RevenueChart() {
             />
             <Tooltip 
               formatter={(value, name) => {
-                if (name === 'value') return [`R$ ${Number(value).toLocaleString()}`, 'Receita do dia'];
-                if (name === 'acumulado') return [`R$ ${Number(value).toLocaleString()}`, 'Acumulado'];
+                if (name === 'value') return [`R$ ${Number(value).toLocaleString()}`, 'Receita Diária'];
+                if (name === 'acumulado') return [`R$ ${Number(value).toLocaleString()}`, 'Acumulado no Mês'];
                 return [value, name];
               }}
               labelFormatter={(label) => `Dia: ${label}`}
@@ -431,6 +431,7 @@ function RevenueChart() {
                 if (value === 'acumulado') return <span className="text-green-600">Acumulado no Mês</span>;
                 return value;
               }}
+              verticalAlign="bottom"
             />
             <Area 
               yAxisId="left"
@@ -460,10 +461,101 @@ function RevenueChart() {
   );
 }
 
+function MetricsCard() {
+  return (
+    <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="text-xl font-semibold text-gray-800">Métricas Principais</h3>
+        <button className="text-sm text-blue-500 hover:text-blue-600 font-medium flex items-center">
+          <span>Ver relatório completo</span>
+          <ChevronRight className="w-4 h-4 ml-1" />
+        </button>
+      </div>
+      <div className="space-y-5">
+        <div className="p-4 rounded-xl bg-blue-50/40 flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <div className="p-2 bg-blue-500/10 rounded-lg">
+              <Activity className="w-5 h-5 text-blue-500" />
+            </div>
+            <div>
+              <p className="text-gray-600 font-medium">Taxa de Conversão</p>
+              <p className="text-sm text-gray-400">Últimos 30 dias</p>
+            </div>
+          </div>
+          <div className="text-right">
+            <p className="text-xl font-bold text-gray-800">4.28%</p>
+            <p className="text-sm text-blue-500 flex items-center">
+              <ArrowUpRight className="w-3 h-3 mr-1" />
+              +0.8% mês anterior
+            </p>
+          </div>
+        </div>
+        
+        <div className="p-4 rounded-xl bg-green-50/40 flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <div className="p-2 bg-green-500/10 rounded-lg">
+              <BarChart3 className="w-5 h-5 text-green-500" />
+            </div>
+            <div>
+              <p className="text-gray-600 font-medium">LTV Médio</p>
+              <p className="text-sm text-gray-400">Por cliente</p>
+            </div>
+          </div>
+          <div className="text-right">
+            <p className="text-xl font-bold text-gray-800">R$ 4.892</p>
+            <p className="text-sm text-green-500 flex items-center">
+              <ArrowUpRight className="w-3 h-3 mr-1" />
+              +12% mês anterior
+            </p>
+          </div>
+        </div>
+        
+        <div className="p-4 rounded-xl bg-purple-50/40 flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <div className="p-2 bg-purple-500/10 rounded-lg">
+              <Users className="w-5 h-5 text-purple-500" />
+            </div>
+            <div>
+              <p className="text-gray-600 font-medium">Churn Rate</p>
+              <p className="text-sm text-gray-400">Mensal</p>
+            </div>
+          </div>
+          <div className="text-right">
+            <p className="text-xl font-bold text-gray-800">1.2%</p>
+            <p className="text-sm text-purple-500 flex items-center">
+              <ArrowDownRight className="w-3 h-3 mr-1" />
+              -0.3% mês anterior
+            </p>
+          </div>
+        </div>
+        
+        <div className="p-4 rounded-xl bg-indigo-50/40 flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <div className="p-2 bg-indigo-500/10 rounded-lg">
+              <Zap className="w-5 h-5 text-indigo-500" />
+            </div>
+            <div>
+              <p className="text-gray-600 font-medium">Tempo de Aquisição</p>
+              <p className="text-sm text-gray-400">Média em dias</p>
+            </div>
+          </div>
+          <div className="text-right">
+            <p className="text-xl font-bold text-gray-800">5.4 dias</p>
+            <p className="text-sm text-indigo-500 flex items-center">
+              <ArrowDownRight className="w-3 h-3 mr-1" />
+              -1.2 dias vs anterior
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function ConversionChart() {
   return (
-    <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-      <div className="flex items-center justify-between mb-6">
+    <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+      <div className="flex items-center justify-between mb-4">
         <div>
           <h3 className="text-xl font-semibold text-gray-800">Taxa de Conversão</h3>
           <p className="text-gray-500 text-sm mt-1">Última semana vs média</p>
@@ -483,7 +575,7 @@ function ConversionChart() {
               formatter={(value) => [`${value}%`, value === 'taxa' ? 'Taxa atual' : 'Média']}
               contentStyle={{ borderRadius: '8px', border: '1px solid #e5e7eb' }}
             />
-            <Legend />
+            <Legend verticalAlign="bottom" />
             <Line 
               type="monotone" 
               dataKey="taxa" 
@@ -512,8 +604,8 @@ function ConversionChart() {
 
 function SegmentationChart() {
   return (
-    <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-      <div className="flex items-center justify-between mb-6">
+    <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+      <div className="flex items-center justify-between mb-4">
         <div>
           <h3 className="text-xl font-semibold text-gray-800">Segmentação de Clientes</h3>
           <p className="text-gray-500 text-sm mt-1">Por plano</p>
@@ -539,6 +631,7 @@ function SegmentationChart() {
             </Pie>
             <Legend 
               formatter={(value) => <span className="text-gray-600">{value}</span>}
+              verticalAlign="bottom"
             />
             <Tooltip 
               formatter={(value) => [`${value}%`, 'Percentual']}
@@ -546,97 +639,6 @@ function SegmentationChart() {
             />
           </RechartsPieChart>
         </ResponsiveContainer>
-      </div>
-    </div>
-  );
-}
-
-function MetricsCard() {
-  return (
-    <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-      <div className="flex items-center justify-between mb-6">
-        <h3 className="text-xl font-semibold text-gray-800">Métricas Principais</h3>
-        <button className="text-sm text-blue-500 hover:text-blue-600 font-medium flex items-center">
-          <span>Ver relatório completo</span>
-          <ChevronRight className="w-4 h-4 ml-1" />
-        </button>
-      </div>
-      <div className="space-y-5">
-        <div className="p-4 rounded-xl bg-blue-50/50 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="p-2 bg-blue-500/10 rounded-lg">
-              <Activity className="w-5 h-5 text-blue-500" />
-            </div>
-            <div>
-              <p className="text-gray-600 font-medium">Taxa de Conversão</p>
-              <p className="text-sm text-gray-400">Últimos 30 dias</p>
-            </div>
-          </div>
-          <div className="text-right">
-            <p className="text-xl font-bold text-gray-800">4.28%</p>
-            <p className="text-sm text-blue-500 flex items-center">
-              <ArrowUpRight className="w-3 h-3 mr-1" />
-              +0.8% mês anterior
-            </p>
-          </div>
-        </div>
-        
-        <div className="p-4 rounded-xl bg-green-50/50 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="p-2 bg-green-500/10 rounded-lg">
-              <BarChart3 className="w-5 h-5 text-green-500" />
-            </div>
-            <div>
-              <p className="text-gray-600 font-medium">LTV Médio</p>
-              <p className="text-sm text-gray-400">Por cliente</p>
-            </div>
-          </div>
-          <div className="text-right">
-            <p className="text-xl font-bold text-gray-800">R$ 4.892</p>
-            <p className="text-sm text-green-500 flex items-center">
-              <ArrowUpRight className="w-3 h-3 mr-1" />
-              +12% mês anterior
-            </p>
-          </div>
-        </div>
-        
-        <div className="p-4 rounded-xl bg-purple-50/50 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="p-2 bg-purple-500/10 rounded-lg">
-              <Users className="w-5 h-5 text-purple-500" />
-            </div>
-            <div>
-              <p className="text-gray-600 font-medium">Churn Rate</p>
-              <p className="text-sm text-gray-400">Mensal</p>
-            </div>
-          </div>
-          <div className="text-right">
-            <p className="text-xl font-bold text-gray-800">1.2%</p>
-            <p className="text-sm text-purple-500 flex items-center">
-              <ArrowDownRight className="w-3 h-3 mr-1" />
-              -0.3% mês anterior
-            </p>
-          </div>
-        </div>
-        
-        <div className="p-4 rounded-xl bg-indigo-50/50 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="p-2 bg-indigo-500/10 rounded-lg">
-              <Zap className="w-5 h-5 text-indigo-500" />
-            </div>
-            <div>
-              <p className="text-gray-600 font-medium">Tempo de Aquisição</p>
-              <p className="text-sm text-gray-400">Média em dias</p>
-            </div>
-          </div>
-          <div className="text-right">
-            <p className="text-xl font-bold text-gray-800">5.4 dias</p>
-            <p className="text-sm text-indigo-500 flex items-center">
-              <ArrowDownRight className="w-3 h-3 mr-1" />
-              -1.2 dias vs anterior
-            </p>
-          </div>
-        </div>
       </div>
     </div>
   );
@@ -658,8 +660,8 @@ const Dashboard: React.FC = () => {
         </div>
 
         <div className="mb-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-            <div className="h-full">
+          <div className="flex flex-nowrap overflow-x-auto pb-4 gap-4 lg:grid lg:grid-cols-5">
+            <div>
               <StatCard
                 title="Total de Usuários"
                 subtitle="Ativos na plataforma"
@@ -670,7 +672,7 @@ const Dashboard: React.FC = () => {
                 trendColor="blue"
               />
             </div>
-            <div className="h-full">
+            <div>
               <StatCard
                 title="Faturamento Total"
                 subtitle="Acumulado do ano"
@@ -681,7 +683,7 @@ const Dashboard: React.FC = () => {
                 trendColor="green"
               />
             </div>
-            <div className="w-64">
+            <div>
               <StatCard
                 title="Faturamento do Mês"
                 subtitle="Mês atual"
@@ -692,7 +694,7 @@ const Dashboard: React.FC = () => {
                 trendColor="green"
               />
             </div>
-            <div className="w-64">
+            <div>
               <StatCard
                 title="Faturamento Hoje"
                 subtitle="Atualizado em tempo real"
@@ -703,7 +705,7 @@ const Dashboard: React.FC = () => {
                 trendColor="purple"
               />
             </div>
-            <div className="w-64">
+            <div>
               <StatCard
                 title="MRR Previsto"
                 subtitle="Próximo mês"
@@ -726,7 +728,7 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <div className="h-full">
             <ConversionChart />
           </div>
