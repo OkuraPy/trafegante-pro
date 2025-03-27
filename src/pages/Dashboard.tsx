@@ -22,8 +22,10 @@ import {
   Zap,
   Layers,
   PieChart,
-  LucideIcon
+  LucideIcon,
+  LogOut
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 import {
   AreaChart, 
@@ -259,6 +261,15 @@ interface SidebarProps {
 }
 
 function Sidebar({ isOpen, onClose }: SidebarProps) {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Remover autenticação
+    localStorage.removeItem('isAuthenticated');
+    // Redirecionar para login
+    navigate('/login');
+  };
+
   return (
     <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}>
       <div className="flex items-center justify-between h-16 px-4 border-b border-gray-200">
@@ -297,6 +308,17 @@ function Sidebar({ isOpen, onClose }: SidebarProps) {
         <div className="pt-4 mt-4 border-t border-gray-200">
           <SidebarMenuItem icon={Settings} text="Configurações" />
           <SidebarMenuItem icon={HelpCircle} text="Suporte" />
+        </div>
+        
+        {/* Botão de Sair */}
+        <div className="pt-4 mt-4 border-t border-gray-200">
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+          >
+            <LogOut className="w-5 h-5 mr-3" />
+            <span className="font-medium">Sair</span>
+          </button>
         </div>
       </nav>
     </div>

@@ -50,15 +50,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
                 <span className="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full"></span>
               </button>
               
-              {/* Botão de Sair visível */}
-              <button
-                onClick={handleLogout}
-                className="flex items-center px-4 py-2 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg transition-colors"
-              >
-                <LogOut className="w-4 h-4 mr-2" />
-                <span className="font-medium">Sair</span>
-              </button>
-              
               <div className="relative">
                 <button 
                   onClick={() => setShowLogoutMenu(!showLogoutMenu)}
