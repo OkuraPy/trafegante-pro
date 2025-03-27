@@ -1,0 +1,6 @@
+Este é um arquivo de teste
+
+Criado apenas para verificar o deploy automático na Vercel.
+Data: 27 de março de 2023
+
+Trafegante Pro - Dashboard 
